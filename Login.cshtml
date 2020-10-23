@@ -1,0 +1,86 @@
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor httpContextaccessor
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<form asp-action="CheckRole">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                &nbsp;
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-9">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-9 text-center">
+                                <h2>Log in</h2>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 text-right">
+                                User Name:
+                            </div>
+                            <div class="col-md-6">
+                                @{
+                                    if (httpContextaccessor.HttpContext.Request.Cookies["UserId"] != null)
+                                    {
+                                        @Html.TextBox("name", httpContextaccessor.HttpContext.Request.Cookies["UserId"]);
+                                    }
+                                    else
+                                    {
+                                        @Html.TextBox("name")
+                                    }
+                                }
+
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-3 text-right">
+                                Password:
+                            </div>
+                            <div class="col-md-6">
+                                @{
+                                    if (httpContextaccessor.HttpContext.Request.Cookies["Password"] != null)
+                                    {
+                                        @Html.Password("pwd", httpContextaccessor.HttpContext.Request.Cookies["Password"]);
+                                    }
+                                    else
+                                    {
+                                        @Html.Password("pwd")
+                                    }
+                                }
+
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-3 text-right">
+                                &nbsp;
+                            </div>
+                            <div class="col-md-6">
+                                <input type="submit" class="btn" value="Login" id="btnLogin" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 text-right">
+                            &nbsp;
+                        </div>
+                        <div class="col-md-6">
+                            <a asp-area="" asp-controller="User" asp-action="RegisterUser">New User Registration</a>
+                            <input type="checkbox" name="RememberMe" /> Remember Me
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+

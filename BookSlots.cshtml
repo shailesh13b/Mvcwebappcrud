@@ -1,0 +1,46 @@
+﻿@model BowlingAlleyWeb.Models.BookingSlots
+
+@{
+    ViewData["Title"] = "BookSlots";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>BookSlots</h1>
+<form asp-action="ConfirmBooking">
+    <div>
+        <h4>BookingSlots</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.SlotId)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.TextBoxFor(model => model.SlotId)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.SlotStartTime)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.SlotStartTime)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.SlotEndTime)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.SlotEndTime)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.Label("Emp ID")
+            </dt>
+            <dd class="col-sm-10">
+                @Html.TextBox("empId")
+            </dd>
+        </dl>
+    </div>
+    <div>
+        <div class="col-md-6">
+            <input type="submit" class="btn" value="Login" id="btnLogin" />
+        </div>
+        @*@Html.ActionLink("Confirm", "ConfirmBooking", new { slotId = Model.SlotId, empId = TempData["empId"] })*@
+    </div>
+</form>
