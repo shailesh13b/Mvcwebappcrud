@@ -2,20 +2,21 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BowlingAlleyWeb.Mapper;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using AutoMapper;
-using BowlingAlleyDAL.Models;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Hosting;
+using quickkart2.Repository;
+using QuickKartDataAccessLayer.Models;
 
-namespace BowlingAlleyWeb
+
+namespace quickkart2
 {
     public class Startup
     {
@@ -29,16 +30,21 @@ namespace BowlingAlleyWeb
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddTransient<BowlingAlleyDAL.Models.ReservationDetails>();
-            services.AddMvc();
             services.AddControllersWithViews();
-            services.AddAutoMapper(typeof(BowlingAlleyMapper));
+            services.AddMvc();
+            services.AddDbContext<QuickKartContext>
+                (options => options.UseSqlServer(Configuration.GetConnectionString("QuickKartCon")));
+
+            services.AddAutoMapper(typeof(QuickKartMapper));
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddDbContext<BowlingAlleyDBContext>
-                (options => options.UseSqlServer(Configuration.GetConnectionString("QuickKartDBConnectionString")));
-            services.AddSession();
             services.AddSession(options => {
                 options.IdleTimeout = TimeSpan.FromDays(99999);
+            });
+
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.CheckConsentNeeded = context => false;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
             });
         }
 
@@ -60,9 +66,9 @@ namespace BowlingAlleyWeb
 
             app.UseRouting();
 
-            app.UseSession();
-
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

@@ -1,0 +1,18 @@
+﻿@model IEnumerable<string>
+
+@{
+    ViewData["Title"] = "AdminHome";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h1>Admin Home</h1>
+
+<ul>
+    @foreach (var item in Model)
+    {
+        <li>
+            @item.ToString()
+        </li>
+    }
+</ul>
+
