@@ -1,0 +1,61 @@
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor httpContextaccessor
+@using Microsoft.AspNetCore.Http; 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - quickkart2</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a asp-area="" asp-controller="Home" asp-action="Login" class="navbar-brand">QuickKart</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a asp-area="" asp-controller="Product" asp-action="ViewProducts">View All Products</a></li>
+                        <li><a asp-area="" asp-controller="Product" asp-action="AddProduct">Add Product</a></li>
+                        <li><a asp-area="" asp-controller="Category" asp-action="ViewCategories">View All Categories</a></li>
+                        <li><a asp-area="" asp-controller="Category" asp-action="AddCategory">Add Category</a></li>
+                        <li><a asp-area="" asp-controller="Home" asp-action="Logout">Log Out</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="row">
+        <div class="col-md-9"></div>
+        <div class="col-md-3">
+            Welcome  <strong>@Context.Session.GetString("username")</strong>
+        </div>
+        <div class="col-md-3">
+            Your last login Time was:  <strong>@httpContextaccessor.HttpContext.Request.Cookies[Context.Session.GetString("username").ToString() + "lastlogintime"]</strong>
+        </div>
+    </div>
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <br />
+    <br />
+    <footer style="bottom:0%;position:fixed;width:80%;text-align:center;">
+        <hr />
+        <p>&copy; @DateTime.Now.Year - Shop@@Home</p>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
